@@ -25,3 +25,8 @@ Colour choices were made following accesibility best practices:
 
 **Contrast Colour Validation**
 ![colour contrast validation](documentation/colour/colour_accesibility.png)
+
+### Design - Wireframes
+![to do list design](documentation/design/todo_list_designs.png)
+
+If you want to check individual designs plese click [here](documentation/design/design.md)
