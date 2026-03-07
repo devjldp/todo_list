@@ -10,8 +10,16 @@
 <body>
     <header>
         <img src="{{url_for('static', filename='images/icon.png')}}" alt="Stream Line Productivity Logo" id="streamline-logo">
+        {% if session.get("user_id") %}
+            <p>Welcome, {{ session["user_name"]}}</p>
+        {% endif %}
+        
         <nav>
-            <p>StreamLine Productivity Solutions</p>
+            {% if session.get("user_id") %}
+                <a href="">Log Out</a>
+            {% else %}
+                <p>StreamLine Productivity Solutions</p>
+            {% endif %}
         </nav>
     </header>
     <main>
