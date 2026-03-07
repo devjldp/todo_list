@@ -2,7 +2,7 @@
 from flask import render_template, redirect, url_for, request, session, flash
 
 from config.database import get_db
-from models import DatabaseOperations
+from app.models import DatabaseOperations
 from app import app
 
 
