@@ -12,6 +12,11 @@
     --button-hover-text-colour: #04053b;
 }
 
+/* spacing and margin */
+.mt-2{
+    margin-top: 2vh;
+}
+
 /* fix the footer at the bottom */
 
 body{

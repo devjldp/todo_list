@@ -1,0 +1,28 @@
+<!-- inherit base.html  -->
+{% extends "base.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index/style.css')}}">
+{% endblock %}
+
+{% block content %}
+<div id="main-index">
+    <section id="hero-img-section">
+        <img src="{{url_for('static', filename='images/hero_image.png')}}" alt="StreamLine hero image">
+    </section>
+    <section id="index-form-section">
+        <h2>Welcome to Stream Line To do List</h2>
+        <form method="post" class="mt-2">
+            <div>
+                <input type="text" class="mt-2" name="user" placeholder="username or email" required>
+            </div>
+            <div>
+                <input type="password" class="mt-2" name="password" placeholder="password" required>
+            </div>
+            <div>
+                <button type="submit" class="mt-2" >Log In</button>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

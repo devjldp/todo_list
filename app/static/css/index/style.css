@@ -1,0 +1,21 @@
+#main-index{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#hero-img-section{
+    width: 45%;
+    text-align: center;
+}
+
+#hero-img-section > img {
+    width: 55%;
+}
+
+#index-form-section{
+    width: 45%;
+    text-align: center;
+}
