@@ -1,0 +1,10 @@
+ul{
+    list-style: none;
+}
+
+#container-admin-dashboard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: start;
+}
