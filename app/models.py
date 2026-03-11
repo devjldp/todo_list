@@ -50,7 +50,6 @@ class DatabaseOperations:
         except Exception as e:
             print(e)
 
-
     @staticmethod
     def register_new_user(email, username, password):
         """
@@ -76,12 +75,17 @@ class DatabaseOperations:
             if cursor is None:
                 return None
 
-            query = "insert into users (email, user_name, password) values(%s,%s,%s);"
+            query = "insert into users (email, user_name, password) values(%s,%s,%s) returning user_id;"
 
             cursor.execute(query, (email, username, password))
-
+            
+            id = cursor.fetchone()[0]
+            print(f"Id returned: {id}")
+            query = "insert into user_details (user_id) values (%s);"
+            cursor.execute(query, (id, ))
             # commit to save changes permanently in the database 
             conn.commit()
+
             # Debugging purpose:
             print("user registered succesfully")
             return True
@@ -95,8 +99,6 @@ class DatabaseOperations:
             if cursor:
                 cursor.close()
             close_db()
-
-
 
     @staticmethod
     def get_all_users():
@@ -133,7 +135,6 @@ class DatabaseOperations:
         except Exception as e:
             print(f"Error: {e}")
             return None
-
 
     @staticmethod
     def remove_user(user_id):
@@ -176,6 +177,37 @@ class DatabaseOperations:
             if cursor:
                 cursor.close()
             close_db()
+
+    @staticmethod
+    def get_user_by_id(user_id):
+        try:
+            # create the connection object
+            conn = get_db()
+
+            # create the cursor
+            cursor = conn.cursor()
+
+            # check if the cursosr exist:
+            if cursor is None:
+                return None
+            
+            # write the query
+            query = "select user_id, user_name, email from users where user_name = %s and password = %s"
+            #execute the query
+            cursor.execute(query, (username, password))
+            user = cursor.fetchone()
+            cursor.close()
+            close_db()
+            return user # -> (user_id, user_name, is_admin ) -> 10	"test_admin"	true
+        except Exception as e:
+            print(e)
+
+
+
+
+
+
+
 
 
 
