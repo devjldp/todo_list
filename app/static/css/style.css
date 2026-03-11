@@ -17,6 +17,10 @@
     margin-top: 2vh;
 }
 
+.text-center{
+    text-align: center;
+}
+
 /* fix the footer at the bottom */
 
 body{
@@ -29,6 +33,21 @@ body{
 main{
     flex: 1 0 auto;
 }
+
+
+/* flash message categories */
+
+/* Flask categories */
+
+.alert-success{
+    color: #155724;
+}
+
+.alert-error{
+    color: #721c24;
+}
+
+
 
 /* Header  */
 
@@ -44,6 +63,15 @@ header{
 
 #streamline-logo{
     width: 5vw;
+}
+
+nav > a{
+    color: var(--link-colour);
+    text-decoration: none;;
+}
+
+nav>a:hover{
+    color: var(--link-hover-colour)
 }
 
 /* Footer */

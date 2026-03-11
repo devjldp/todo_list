@@ -16,12 +16,13 @@
         
         <nav>
             {% if session.get("user_id") %}
-                <a href="">Log Out</a>
+                <a href="{{ url_for('logout') }}">Log Out</a>
             {% else %}
                 <p>StreamLine Productivity Solutions</p>
             {% endif %}
         </nav>
     </header>
+    
     <main>
         
         <!-- Create a placeholder for each view that inherits this base template -->

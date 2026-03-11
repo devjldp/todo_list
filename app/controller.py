@@ -105,3 +105,21 @@ def remove_user(user_id):
         flash("Oh Something goes wrong. Try Again!", "error")
 
     return redirect(url_for("admin_dashboard"))
+
+
+@app.route('/logout')
+def logout():
+    """
+    log out the session and redirect to the index
+    """
+    session.clear() # Reset the session
+    return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
