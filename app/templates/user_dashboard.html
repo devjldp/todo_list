@@ -8,13 +8,13 @@
     <section>
         {% if employee %}
         <form method="post">
-            <div><input type="text" name="name" id="" placeholder="{{ employee['name'] }}"></div>
-            <div><input type="text" name="email" id="" placeholder="{{ employee['phone'] }}"></div>
-            <div><input type="text" name="email" id="" placeholder="{{ employee['data_birth'] }}"></div>
-            <div><input type="text" name="email" id="" placeholder="{{ employee['address'] }}"></div>
-            <div><input type="text" name="email" id="" placeholder="{{ employee['city'] }}"></div>
-            <div><input type="text" name="email" id="" placeholder="{{ employee['role'] }}"></div>
-            <div><input type="submit" value="Update"></div>
+            <div><input type="text" name="name" id="name" placeholder="{{ employee['name'] }}"></div>
+            <div><input type="text" name="phone" id="phone" placeholder="{{ employee['phone'] }}"></div>
+            <div><label for="">{{employee["data_birth"]}}</label><input type="date" name="date_birth" id="date_birth"></div>
+            <div><input type="text" name="address" id="address" placeholder="{{ employee['address'] }}"></div>
+            <div><input type="text" name="city" id="city" placeholder="{{ employee['city'] }}"></div>
+            <div><input type="text" name="role" id="role" placeholder="{{ employee['role'] }}"></div>
+            <div><input type="submit" value="Update" class="btn"></div>
         </form>
         {% else %}
             <h2>no data</h2>
