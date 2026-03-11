@@ -62,3 +62,32 @@ footer{
 footer > div{
     text-align: center;
 }
+
+
+/* global attributes */
+
+.btn{
+    display: inline-block;
+    color: #fafafa;
+    background-color: #04053b;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+}
+
+.btn:hover{
+    color:#04053b;
+    background-color: #fafafa;
+    border: 1px solid #04053b;
+}
+
+.btn-no-radius{
+    border-radius: 0px;
+}
+
+
+input[type="text"], input[type="email"], input[type="password"]{
+    background-color: #d2cbe2;
+    color: #000000;
+}
