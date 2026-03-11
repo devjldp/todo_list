@@ -95,3 +95,48 @@ class DatabaseOperations:
             if cursor:
                 cursor.close()
             close_db()
+
+
+
+    @staticmethod
+    def get_all_users():
+        """
+        Retrieves all non-admin users from the database.
+
+        Args:
+            None
+        
+        Returns:
+            List: List of tuples if the users exist.
+            None: If the cursor couldn't be created, and error occurs or no users are found.
+        
+        Raises:
+            Ex
+
+        """
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            # Check if the cursor is None
+            if cursor is None:
+                return None
+
+            query = "select user_id, user_name, email from users where is_admin = false;"
+
+            cursor.execute(query)
+
+            users = cursor.fetchall()
+
+            if users is None:
+                return None
+            return users
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+
+
+
+
+
+
+
