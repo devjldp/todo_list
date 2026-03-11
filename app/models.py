@@ -135,8 +135,47 @@ class DatabaseOperations:
             return None
 
 
+    @staticmethod
+    def remove_user(user_id):
+        """
+            Removes a user from the database by their user ID.
+            Args:
+                user_id (int): The unique identifier of the user to be removed.
+            Returns:
+                    True if the user was successfully removed.
+                    False if the deletion failed due to an error.
+                    None if the database cursor could not be created.
 
+            Raises:
+                Exception: Any database-related exception encountered is caught internally, triggering a rollback and returning False.
+        """
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            # Check if the cursor is None
+            if cursor is None:
+                return None
 
+            query = "delete from users where user_id = %s;"
+
+            #  must be a tuple  -> tis is the reason for (user_id, )    
+            cursor.execute(query, (user_id,))
+
+            # commit to save changes permanently in the database 
+            conn.commit()
+            # Debugging purpose:
+            print("user removed succesfully")
+            return True
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            print(f"Error: Deletion Failed. {e}")
+            return False
+        finally:
+            # Always clean up resources
+            if cursor:
+                cursor.close()
+            close_db()
 
 
 

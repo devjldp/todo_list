@@ -81,3 +81,27 @@ def admin_dashboard():
         return redirect(url_for("admin_dashboard"))
     users = DatabaseOperations.get_all_users()
     return render_template("admin_dashboard.html", employees = users)
+
+
+
+@app.route('/remove_user/<int:user_id>', methods=["GET", "POST"])
+def remove_user(user_id):
+    """
+    Flask route to remove a user from the system by user ID.
+
+    Args:
+        user_id (int): The unique identifier of the user to be removed, passed as part of the URL.
+
+    Returns:
+        Response: A Flask redirect response to the admin dashboard page.
+                  A flash message is included indicating whether the deletion was successful or failed.
+    """
+    print(f"The id is {user_id}")
+    result = DatabaseOperations.remove_user(user_id)
+    
+    if result:
+        flash("User removed sucessfully", "success")
+    else:
+        flash("Oh Something goes wrong. Try Again!", "error")
+
+    return redirect(url_for("admin_dashboard"))
