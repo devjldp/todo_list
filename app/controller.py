@@ -13,8 +13,8 @@ def index():
     Handle the landing page and user login process.
     For GET request, this function renders the login page.
     For POST request, it attempts to authenticate the user:
-        if the user is administrator render the administrator dashboard
-        if the user is a employee render the employee dashboard
+        if the user is administrator redirects to the administrator dashboard
+        if the user is a employee redirects to the employee dashboard
     """
     if request.method == "POST":
         username_email = request.form.get("user") 
@@ -46,6 +46,19 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/admin_dashboard', methods = ["GET"])
+@app.route('/admin_dashboard', methods = ["GET", "POST"])
 def admin_dashboard():
+    if request.method == "POST":
+        email = request.form.get("email")
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        result = AdminOperations.register_new_user(email, username, password)
+        if result:
+            flash("New user registered sucessfully", "success")
+        else:
+            flash("Oh Something goes wrong. Try Again!", "error")
+
+        return redirect(url_for("admin_dashboard"))
+        
     return render_template("admin_dashboard.html")

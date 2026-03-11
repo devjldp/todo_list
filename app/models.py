@@ -49,3 +49,49 @@ class DatabaseOperations:
             return user
         except Exception as e:
             print(e)
+
+
+    @staticmethod
+    def register_new_user(email, username, password):
+        """
+        Registers a new user in the database, table users.
+        Aegs:
+            email(str): The email address of the user.
+            username (str): the usernmae chosen by the user.
+            password (str): the password for the user account.
+
+        Returns:
+            bool:
+                True if the user (employee) was succesfully registered.
+                False if the registration failed due to an error.
+                None if the database cursos not be created.
+        
+        Raises:
+            Exceptio: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
+        """
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            # Check if the cursor is None
+            if cursor is None:
+                return None
+
+            query = "insert into users (email, user_name, password) values(%s,%s,%s);"
+
+            cursor.execute(query, (email, username, password))
+
+            # commit to save changes permanently in the database 
+            conn.commit()
+            # Debugging purpose:
+            print("user registered succesfully")
+            return True
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            print(f"Error: Registration Failed. {e}")
+            return False
+        finally:
+            # Always clean up resources
+            if cursor:
+                cursor.close()
+            close_db()
