@@ -116,6 +116,10 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/user_dashboard', methods=["GET", "POST"])
+def user_dashboard():
+    return render_template("user_dashboard.html")
+
 
 
 
