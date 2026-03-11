@@ -48,6 +48,25 @@ def index():
 
 @app.route('/admin_dashboard', methods = ["GET", "POST"])
 def admin_dashboard():
+    """
+    Admin Dasboard route
+    This route handles the admin dashboard functionality. It allows an admin
+    to view all users and register new users through a web form.
+
+    Methods:
+        GET:
+            - Fetches all registered users and renders th 'admin_dashboard.html' template
+        POST:
+            - Receives form data for a new user: 'email', 'username', and 'password'.
+            - Calls AdminOperations.register_new_user() to register the user.
+            - Uses flash messages to indicate success or failure.
+            - Redirects back to the dashboard to prevent form resubmission.
+
+     Returns:
+        - On GET: Rendered template 'admin_dashboard.html' with 'employees' context.
+        - On POST: Redirect to 'admin_dashboard' route after processing form submission.
+    """
+
     if request.method == "POST":
         email = request.form.get("email")
         username = request.form.get("username")
@@ -60,5 +79,5 @@ def admin_dashboard():
             flash("Oh Something goes wrong. Try Again!", "error")
 
         return redirect(url_for("admin_dashboard"))
-        
-    return render_template("admin_dashboard.html")
+    users = AdminOperations.get_all_users()
+    return render_template("admin_dashboard.html", employees = users)
