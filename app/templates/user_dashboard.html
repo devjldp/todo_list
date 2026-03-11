@@ -3,5 +3,28 @@
 {% block content %}
 
 <h2>User dashboard</h2>
+<div>
 
+    <section>
+        {% if employee %}
+        <form method="post">
+            <div><input type="text" name="name" id="" placeholder="{{ employee['name'] }}"></div>
+            <div><input type="text" name="email" id="" placeholder="{{ employee['phone'] }}"></div>
+            <div><input type="text" name="email" id="" placeholder="{{ employee['data_birth'] }}"></div>
+            <div><input type="text" name="email" id="" placeholder="{{ employee['address'] }}"></div>
+            <div><input type="text" name="email" id="" placeholder="{{ employee['city'] }}"></div>
+            <div><input type="text" name="email" id="" placeholder="{{ employee['role'] }}"></div>
+            <div><input type="submit" value="Update"></div>
+        </form>
+        {% else %}
+            <h2>no data</h2>
+        {% endif %}
+    </section>
+    
+    <section>
+        <a href="#">Create a new task</a>
+        <a href="#">View pending tasks</a>
+    </section>
+</div>
+    
 {% endblock %}

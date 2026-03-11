@@ -2,7 +2,7 @@
 from flask import render_template, redirect, url_for, request, session, flash
 
 from config.database import get_db
-from app.models import DatabaseOperations
+from app.models import DatabaseOperations, EmployeeOperations
 from app import app
 
 
@@ -118,9 +118,42 @@ def logout():
 
 @app.route('/user_dashboard', methods=["GET", "POST"])
 def user_dashboard():
-    return render_template("user_dashboard.html")
 
+    try:
+        if not session:
+            raise Exception("No session initialized")
+        
+        user = EmployeeOperations.get_user_details(session["user_id"])
 
+        employee_details = {
+            "user_id": None,
+            "name" : None,
+            "phone": None,
+            "data_birth": None,
+            "address": None,
+            "city": None,
+            "role": None
+        }
+
+        counter = 0
+        for key in employee_details.keys():
+            print(type(user[counter]))
+            if user[counter] == None:
+                employee_details[key] = key
+                counter += 1
+                continue
+            if isinstance(user[counter], str):
+                employee_details[key] = user[counter].capitalize()
+                counter += 1
+                continue
+            employee_details[key] = user[counter]
+            counter += 1
+   
+
+        return render_template("user_dashboard.html", employee = employee_details)
+
+    except Exception as e:
+        print(e)
 
 
 
