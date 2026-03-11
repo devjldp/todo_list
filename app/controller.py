@@ -120,9 +120,26 @@ def logout():
 def user_dashboard():
 
     try:
+
         if not session:
             raise Exception("No session initialized")
         
+
+        if request.method == "POST":
+            print("Receiving data form employee")
+            employee_details = {
+            "user_id": session["user_id"],
+            "name" : request.form.get("name"),
+            "phone": None,
+            "date_birth": None,
+            "address": None,
+            "city": None,
+            "role": request.form.get("role")
+            }
+            EmployeeOperations.update_user_details(employee_details)
+
+            return redirect(url_for("user_dashboard"))
+
         user = EmployeeOperations.get_user_details(session["user_id"])
 
         employee_details = {
@@ -137,7 +154,6 @@ def user_dashboard():
 
         counter = 0
         for key in employee_details.keys():
-            print(type(user[counter]))
             if user[counter] == None:
                 employee_details[key] = key
                 counter += 1
