@@ -72,12 +72,12 @@ def admin_dashboard():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        result = AdminOperations.register_new_user(email, username, password)
+        result = DatabaseOperations.register_new_user(email, username, password)
         if result:
             flash("New user registered sucessfully", "success")
         else:
             flash("Oh Something goes wrong. Try Again!", "error")
 
         return redirect(url_for("admin_dashboard"))
-    users = AdminOperations.get_all_users()
+    users = DatabaseOperations.get_all_users()
     return render_template("admin_dashboard.html", employees = users)

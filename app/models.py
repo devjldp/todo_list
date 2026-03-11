@@ -111,7 +111,7 @@ class DatabaseOperations:
             None: If the cursor couldn't be created, and error occurs or no users are found.
         
         Raises:
-            Ex
+            Exception: Any database-related exception encountered internally.
 
         """
         try:
