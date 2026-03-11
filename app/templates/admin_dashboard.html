@@ -1,5 +1,74 @@
 {% extends "base.html" %}
 
+
+{% block title %}Admin Dashboard{% endblock %}
+
 {% block content %}
-    <h2>This is the administrator dashboard</h2>
+<h2 class="text-center">Admin Dashboard</h2>
+
+<div id="container-admin-dashboard">
+
+    <section id="register-user-form">
+        <h3 class="text-center">Register a new employee</h3>
+        <div class="container mt-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <form method="post">
+            <div class="mt-2">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div class="mt-2">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email"> <br>
+            </div>
+            <div class="mt-2">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password"> <br>
+            </div>
+            <div class="mt-2 text-center">
+                <input type="submit" value="Register employee" class="btn">
+            </div>
+        </form>
+    </section>
+    
+    <section id="list-employees">
+        {% if employees %}
+        <h3 class="text-center">Employee List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                
+                {% for employee in employees %}
+                <tr class="mt-2">
+                    <td>{{employee[1]}}</td>
+                    <td>{{employee[2]}}</td>
+                    <td><a href="{{url_for('remove_user', user_id = employee[0])}}" class="btn btn-no-radius">Delete</a></td>
+                    <td><a href="#" class="btn btn-no-radius">Update</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No employees in the database</p>
+        {% endif %}
+    </section>
+</div>
+
 {% endblock %}
