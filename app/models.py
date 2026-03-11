@@ -226,6 +226,32 @@ class EmployeeOperations:
         except Exception as e:
             print(e)
 
+    def update_user_details(employee_details):
+        try:
+            conn = get_db()
+
+            # create the cursor
+            cursor = conn.cursor()
+
+            # check if the cursosr exist:
+            if cursor is None:
+                return None 
+            
+            print("cursr exist")
+            query = "update user_details set name = %s, phone = %s, date_birth = %s, address = %s, city = %s, role = %s where user_id = %s;" 
+            print(query)
+            cursor.execute(query, (employee_details["name"], employee_details["phone"], employee_details["date_birth"], employee_details["address"], employee_details["city"], employee_details["role"], employee_details["user_id"] ,)) 
+
+            print("user updated")
+            # commit to save changes permanently in the database 
+            conn.commit()
+            
+
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
 
 
 
