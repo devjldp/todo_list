@@ -204,8 +204,27 @@ class DatabaseOperations:
 
 
 
+class EmployeeOperations:
+    def get_user_details(id):
+        try:
+            conn = get_db()
 
+            # create the cursor
+            cursor = conn.cursor()
 
+            # check if the cursosr exist:
+            if cursor is None:
+                return None 
+            
+            query = "select user_id, name, phone, date_birth, address, city, role from user_details where user_id = %s;" 
+
+            cursor.execute(query, (id ,)) 
+
+            user = cursor.fetchone()
+
+            return user
+        except Exception as e:
+            print(e)
 
 
 
