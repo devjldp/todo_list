@@ -178,7 +178,7 @@ def user_dashboard():
         "user_id": user[0],
         "name": user[1].capitalize() if user[1] else None,
         "phone": user[2].capitalize() if user[2] else None,
-        "date_birth": user[3],  # esto es un objeto date
+        "date_birth": user[3],
         "date_birth_str": user[3].strftime("%Y-%m-%d") if user[3] else None, 
         "address": user[4].capitalize() if user[4] else None,
         "city": user[5].capitalize() if user[5] else None,
