@@ -240,6 +240,9 @@ class EmployeeOperations:
             print("cursr exist")
             query = "update user_details set name = %s, phone = %s, date_birth = %s, address = %s, city = %s, role = %s where user_id = %s;" 
             print(query)
+            if employee_details["date__birthd"] == "":
+                employee_details["date__birthd"] == None
+
             cursor.execute(query, (employee_details["name"], employee_details["phone"], employee_details["date_birth"], employee_details["address"], employee_details["city"], employee_details["role"], employee_details["user_id"] ,)) 
 
             print("user updated")

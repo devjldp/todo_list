@@ -138,12 +138,12 @@ def user_dashboard():
         print("Receiving data form employee")   # Debuguing purpose
         employee_details = {
             "user_id": session["user_id"],
-            "name" : request.form.get("name"),
-            "phone": None,
-            "date_birth": None,
-            "address": None,
-            "city": None,
-            "role": request.form.get("role")
+            "name" : request.form.get("name").lower(),
+            "phone": request.form.get("phone").lower(),
+            "date_birth": request.form.get("date_birth"),
+            "address": request.form.get("address").lower(),
+            "city": request.form.get("city").lower(),
+            "role": request.form.get("role").lower()
         }
             
         # Call the data layer to update the user details in the database
@@ -159,7 +159,7 @@ def user_dashboard():
     # Retrieve user details from the database using the user_id stored in the session
     user = EmployeeOperations.get_user_details(session["user_id"])
         
-        
+    print(user)
     # Initialize dictionary to store formatted employee details
     employee_details = {
         "user_id": None,
