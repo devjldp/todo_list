@@ -1,29 +1,31 @@
 {% extends "base.html" %}
 
+{% block extra_css %} <link rel="stylesheet" href="{{url_for('static', filename='css/user_dashboard/user.css')}}">{% endblock %}
+{% block title %} StreamLine - User Dashboard {% endblock %}
+
 {% block content %}
 
-<h2>User dashboard</h2>
-<div>
-
+<h2 class="text-center">User dashboard</h2>
+<div id="user-dashboard">
     <section>
         {% if employee %}
         <form method="post">
-            <div><input type="text" name="name" id="name" placeholder="{{ employee['name'] }}"></div>
-            <div><input type="text" name="phone" id="phone" placeholder="{{ employee['phone'] }}"></div>
-            <div><label for="">{{employee["data_birth"]}}</label><input type="date" name="date_birth" id="date_birth"></div>
-            <div><input type="text" name="address" id="address" placeholder="{{ employee['address'] }}"></div>
-            <div><input type="text" name="city" id="city" placeholder="{{ employee['city'] }}"></div>
-            <div><input type="text" name="role" id="role" placeholder="{{ employee['role'] }}"></div>
-            <div><input type="submit" value="Update" class="btn"></div>
+            <div class="mt-2"><input type="text" name="name" id="name" placeholder="{{ employee['name'] }}"></div>
+            <div class="mt-2"><input type="text" name="phone" id="phone" placeholder="{{ employee['phone'] }}"></div>
+            <div class="mt-2"><label for="">{{employee["data_birth"]}}</label><input type="date" name="date_birth" id="date_birth"></div>
+            <div class="mt-2"><input type="text" name="address" id="address" placeholder="{{ employee['address'] }}"></div>
+            <div class="mt-2"><input type="text" name="city" id="city" placeholder="{{ employee['city'] }}"></div>
+            <div class="mt-2"><input type="text" name="role" id="role" placeholder="{{ employee['role'] }}"></div>
+            <div class="mt-2"><input type="submit" value="Update" class="btn mt-2"></div>
         </form>
         {% else %}
             <h2>no data</h2>
         {% endif %}
     </section>
     
-    <section>
-        <a href="#">Create a new task</a>
-        <a href="#">View pending tasks</a>
+    <section id="task-actions">
+        <a href="#" class="btn">Create a new task</a>
+        <a href="#" class="btn">View pending tasks</a>
     </section>
 </div>
     
