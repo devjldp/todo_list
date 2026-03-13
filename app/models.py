@@ -1,4 +1,6 @@
 from config.database import get_db, close_db
+# import dattime class to work wit dates:
+from datetime import datetime
 
 class DatabaseOperations:
 
@@ -237,12 +239,32 @@ class EmployeeOperations:
             if cursor is None:
                 return None 
             
-            print("cursr exist")
+            print("cursor exist") # Debugging purpose
             query = "update user_details set name = %s, phone = %s, date_birth = %s, address = %s, city = %s, role = %s where user_id = %s;" 
-            print(query)
-            if employee_details["date__birthd"] == "":
-                employee_details["date__birthd"] == None
+            
+            print(f"debugging: {query}") # Debugging purpose
 
+            # Manage input date
+
+            print(f"debugging type: {type(employee_details.get('date_birth'))}")
+            # Debugging purpose
+            print(type(employee_details.get("date_birth")) is not 'NoneType')
+            
+            if employee_details.get("date_birth") is None: 
+                date_birth_str = ""
+            else:
+                date_birth_str = employee_details.get("date_birth").strftime("%Y-%m-%d")
+              
+            # Debugging purpose
+            print(f"debugging - date : {date_birth_str}")
+            print(f"debugging type: {type(date_birth_str)}")
+
+            if not date_birth_str or date_birth_str == "":
+                employee_details["date_birth"] = None
+            else:
+                employee_details["date_birth"] = datetime.strptime(date_birth_str, "%Y-%m-%d").date()
+
+            print(f"Debugging: Before updating - {employee_details}") # Debugging purpose
             cursor.execute(query, (employee_details["name"], employee_details["phone"], employee_details["date_birth"], employee_details["address"], employee_details["city"], employee_details["role"], employee_details["user_id"] ,)) 
 
             print("user updated")

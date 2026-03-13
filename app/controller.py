@@ -1,6 +1,8 @@
 # import methods and objects from flask
 from flask import render_template, redirect, url_for, request, session, flash
 
+from datetime import datetime
+
 from config.database import get_db
 from app.models import DatabaseOperations, EmployeeOperations
 from app import app
@@ -145,7 +147,17 @@ def user_dashboard():
             "city": request.form.get("city").lower(),
             "role": request.form.get("role").lower()
         }
-            
+
+        print(f"Debugging - post method: {employee_details}")
+        # Retrieve the date of birth string submitted from the form
+        date_birth_str = employee_details.get("date_birth")
+        # Check if the input is empty or consists only of whitespace
+        if not date_birth_str or date_birth_str.strip() == "":
+            employee_details["date_birth"] = None
+        else:
+            employee_details["date_birth"] = datetime.strptime(date_birth_str, "%Y-%m-%d").date()
+                
+        print(f"Debugging - post method transformation: {employee_details}")
         # Call the data layer to update the user details in the database
         result = EmployeeOperations.update_user_details(employee_details)
 
@@ -156,26 +168,33 @@ def user_dashboard():
 
         return redirect(url_for("user_dashboard"))
         
-    # Retrieve user details from the database using the user_id stored in the session
+    # Retrieve user details from the database using the user_id stored in the session - GET method
     user = EmployeeOperations.get_user_details(session["user_id"])
         
     print(user)
     # Initialize dictionary to store formatted employee details
+
     employee_details = {
-        "user_id": None,
-        "name" : None,
-        "phone": None,
-        "data_birth": None,
-        "address": None,
-        "city": None,
-        "role": None
+        "user_id": user[0],
+        "name": user[1].capitalize() if user[1] else None,
+        "phone": user[2].capitalize() if user[2] else None,
+        "date_birth": user[3],  # esto es un objeto date
+        "date_birth_str": user[3].strftime("%Y-%m-%d") if user[3] else None, 
+        "address": user[4].capitalize() if user[4] else None,
+        "city": user[5].capitalize() if user[5] else None,
+        "role": user[6].capitalize() if user[6] else None
     }
+
+    print(employee_details)
 
     counter = 0
 
-    # Populate the employee_details dictionary with values from the database to show the intiial form
+    # # Populate the employee_details dictionary with values from the database to show the intiial form
 
     for key in employee_details.keys():
+        if key == "date_birth_str":
+            continue
+        print(key)
         if user[counter] == None:
             employee_details[key] = key.capitalize()
             counter += 1
