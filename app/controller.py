@@ -74,7 +74,7 @@ def admin_dashboard():
 
         result = DatabaseOperations.register_new_user(email, username, password)
         if result:
-            flash("New user registered sucessfully", "success")
+            flash("New employee registered sucessfully", "success")
         else:
             flash("Oh Something goes wrong. Try Again!", "error")
 
@@ -100,7 +100,7 @@ def remove_user(user_id):
     result = DatabaseOperations.remove_user(user_id)
     
     if result:
-        flash("User removed sucessfully", "success")
+        flash("Employee removed sucessfully", "success")
     else:
         flash("Oh Something goes wrong. Try Again!", "error")
 
@@ -118,16 +118,25 @@ def logout():
 
 @app.route('/user_dashboard', methods=["GET", "POST"])
 def user_dashboard():
+    """
+    Handles the user dashboard page.
 
-    try:
+    GET:
+        - Retrieves the logged-in user's details from the database.
+        - Formats the data and sends it to the template for display.
 
-        if not session:
-            raise Exception("No session initialized")
-        
+    POST:
+        - Receives updated user information from the form.
+        - Updates the user's details in the database.
+        - Redirects back to the dashboard after the update.
 
-        if request.method == "POST":
-            print("Receiving data form employee")
-            employee_details = {
+    Raises:
+        Exception: If the session has not been initialized.
+    """
+    # Handle form submission (update user information)
+    if request.method == "POST":
+        print("Receiving data form employee")   # Debuguing purpose
+        employee_details = {
             "user_id": session["user_id"],
             "name" : request.form.get("name"),
             "phone": None,
@@ -135,41 +144,51 @@ def user_dashboard():
             "address": None,
             "city": None,
             "role": request.form.get("role")
-            }
-            EmployeeOperations.update_user_details(employee_details)
-
-            return redirect(url_for("user_dashboard"))
-
-        user = EmployeeOperations.get_user_details(session["user_id"])
-
-        employee_details = {
-            "user_id": None,
-            "name" : None,
-            "phone": None,
-            "data_birth": None,
-            "address": None,
-            "city": None,
-            "role": None
         }
+            
+        # Call the data layer to update the user details in the database
+        result = EmployeeOperations.update_user_details(employee_details)
 
-        counter = 0
-        for key in employee_details.keys():
-            if user[counter] == None:
-                employee_details[key] = key
-                counter += 1
-                continue
-            if isinstance(user[counter], str):
-                employee_details[key] = user[counter].capitalize()
-                counter += 1
-                continue
-            employee_details[key] = user[counter]
+        if result:
+            flash("Employee updated sucessfully", "success")
+        else:
+            flash("Oh Something goes wrong. Try Again!", "error")
+
+        return redirect(url_for("user_dashboard"))
+        
+    # Retrieve user details from the database using the user_id stored in the session
+    user = EmployeeOperations.get_user_details(session["user_id"])
+        
+        
+    # Initialize dictionary to store formatted employee details
+    employee_details = {
+        "user_id": None,
+        "name" : None,
+        "phone": None,
+        "data_birth": None,
+        "address": None,
+        "city": None,
+        "role": None
+    }
+
+    counter = 0
+
+    # Populate the employee_details dictionary with values from the database to show the intiial form
+
+    for key in employee_details.keys():
+        if user[counter] == None:
+            employee_details[key] = key.capitalize()
             counter += 1
-   
-
-        return render_template("user_dashboard.html", employee = employee_details)
-
-    except Exception as e:
-        print(e)
+            continue
+        if isinstance(user[counter], str):
+            employee_details[key] = user[counter].capitalize()
+            counter += 1
+            continue
+        employee_details[key] = user[counter]
+        counter += 1
+    
+    # Render the dashboard template with the employee data
+    return render_template("user_dashboard.html", employee = employee_details)
 
 
 

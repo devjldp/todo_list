@@ -8,6 +8,15 @@
 <h2 class="text-center">User dashboard</h2>
 <div id="user-dashboard">
     <section>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                        <p class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert"> {{ message }} </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
         {% if employee %}
         <form method="post">
             <div class="mt-2"><input type="text" name="name" id="name" placeholder="{{ employee['name'] }}"></div>
