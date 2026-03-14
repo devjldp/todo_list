@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h2>View pending tasks</h2>
+<h2 class="text-center">View pending tasks</h2>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -13,5 +13,36 @@
     {% endif %}
 {% endwith %}
 
-<a href="{{url_for('add_task')}}">go back to add tasks</a>
+{% if tasks %}
+<div class="text-center">
+    <table>
+        <thead>
+            <tr>
+                <th>Task title</th>
+                <th>Task dead line</th>
+                <th>Task status</th>
+                <th colspan="2">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task[1]}}</td>
+                <td>{{ task[2].strftime('%d-%m-%Y')}}</td>
+                <td>{{ "Completed" if task[3] == True else "Pending" }}</td>
+                <td><a href="{{url_for('delete_task', task_id = task[0]) }}" class="btn">Remove</a></td>
+                <td><a href="" class="btn">Update</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+        
+        
+    </table>
+    {% else %}
+    <h3 class="text-center">There are not pending tasks!</h3>
+    {% endif %}
+    <a href="{{url_for('add_task')}}" class="btn mt-2 mb-2">go back to add tasks</a>
+</div>
 {% endblock %}
