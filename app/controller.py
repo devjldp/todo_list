@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, request, session, flash
 from datetime import datetime
 
 from config.database import get_db
-from app.models import DatabaseOperations, EmployeeOperations
+from app.models import DatabaseOperations, EmployeeOperations, TaskOperations
 from app import app
 
 
@@ -86,7 +86,7 @@ def admin_dashboard():
     
     # Handle GET method 
     users = DatabaseOperations.get_all_users()
-    
+
     return render_template("admin_dashboard.html", employees = users)
 
 
@@ -214,7 +214,35 @@ def user_dashboard():
     # Render the dashboard template with the employee data
     return render_template("user_dashboard.html", employee = employee_details)
 
+@app.route('/add_task', methods=["GET", "POST"])
+def add_task():
+    """
+    Here you are going to add your docstring
+    """
 
+    # Post method
+    if request.method == "POST":
+        employee_id = session["user_id"]
+
+        # Create a new dictionary to get the info from the form
+        task = {
+            "title": request.form.get("title"),
+            "description": request.form.get("description"),
+            "deadline": request.form.get("deadline")
+        }
+
+        print(f"Task data: {task}") # Debugging purpose
+        # invoke a method to insert the task in the database
+        result = TaskOperations.insert_new_task(task, employee_id)
+        print(result)
+        if result:
+            flash("Task created sucessfully", "success")
+        else:
+            flash("Oh Something goes wrong. Try Again!", "error")
+
+        return render_template("view_tasks.html")
+    # GET method
+    return render_template("add_task.html")
 
 
 

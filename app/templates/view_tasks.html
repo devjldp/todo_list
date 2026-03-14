@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h2>View pending tasks</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <p class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert"> {{ message }} </p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<a href="{{url_for('add_task')}}">go back to add tasks</a>
+{% endblock %}

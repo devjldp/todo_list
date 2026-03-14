@@ -263,7 +263,7 @@ class EmployeeOperations:
 
             print(f"debugging type: {type(employee_details.get('date_birth'))}")
             # Debugging purpose
-            print(type(employee_details.get("date_birth")) is not 'NoneType')
+            # print(type(employee_details.get("date_birth")) is not 'NoneType')
             
             if employee_details.get("date_birth") is None: 
                 date_birth_str = ""
@@ -303,12 +303,15 @@ class TaskOperations:
         Here docstring to comment the method
         """
 
-        try: 
+        try:
+            print(f"Task: {task}") 
+            print(f"ID: {employee_id}") 
+            print(f"data type of dead line: {type(task['deadline'])}")
             conn = get_db()
 
             cursor = conn.cursor()
 
-            if cursor in None:
+            if cursor is None:
                 return None
             
             if not employee_id:
@@ -317,14 +320,18 @@ class TaskOperations:
 
             query = "insert into tasks (title, description, deadline, user_id) values (%s, %s, %s, %s);"
 
-            cursor.execute(query,(task["title"], task["description"], task["deadline"], employee_id))
+            print(query)
+
+            
+            cursor.execute(query,(task["title"], task["description"], datetime.strptime(task["deadline"], "%Y-%m-%d").date() , employee_id,))
 
             conn.commit()
             return True
         except ValueError as e:
-            print(f"Error: {e}")
+            print(f"Error Value error: {e}")
             return False
         except Exception as e:
+            print("Error is here")
             print(f"Error: {e}")
             return False
         finally:

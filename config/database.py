@@ -47,7 +47,7 @@ class Database:
     def _close_connection(self):
         if self._instance:
             self._instance.close()
-            print("Coneection closed")
+            print("Connection closed")
 
 
 # To imporve the security we are going to create two more methods:
