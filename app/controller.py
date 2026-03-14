@@ -250,10 +250,28 @@ def add_task():
         else:
             flash("Oh Something goes wrong. Try Again!", "error")
 
-        return render_template("view_tasks.html")
+        return redirect(url_for("view_tasks"))
     # GET method
     return render_template("add_task.html")
 
 
+@app.route('/view_tasks', methods=["GET"])
+def view_tasks():
+    employee_id = session["user_id"]
 
+    # get all tasks from database
+    pending_tasks = TaskOperations.get_all_tasks(employee_id)
 
+    return render_template("view_tasks.html", tasks = pending_tasks)
+
+@app.route('/delete_task/<int:task_id>', methods = ["GET", "POST"])
+def delete_task(task_id):
+       
+    result = TaskOperations.remove_task_by_id(task_id)
+    
+    if result:
+        flash("Task removed sucessfully", "success")
+    else:
+        flash("Oh Something goes wrong. Try Again!", "error")
+
+    return redirect(url_for("view_tasks"))
