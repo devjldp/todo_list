@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}StreamLine - Add Task {% endblock %}
+
+{% block content %}
+
+<h2 class="text-center">Add a new Task</h2>
+
+<form method="post">
+    <div>
+        <label for="title">Task: </label>
+        <input type="text" name="title" id="title" placeholder="Task title" required arial-label="Title for the task">
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" cols="40" rows="20" placeholder="Task Description..." aria-label="Description for the task"></textarea>
+    </div>
+    <div>
+        <label for="deadline">Dead Line: </label>
+        <input type="date" name="deadline" id="deadline" required>
+    </div>
+
+    <div>
+        <input type="submit" value="Create task">
+    </div>
+</form>
+
+
+{% endblock %}

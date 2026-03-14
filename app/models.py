@@ -191,29 +191,29 @@ class DatabaseOperations:
                 cursor.close()
             close_db()
 
-    @staticmethod
-    def get_user_by_id(user_id):
-        try:
-            # create the connection object
-            conn = get_db()
+    # @staticmethod
+    # def get_user_by_id(user_id): This method is not used
+    #     try:
+    #         # create the connection object
+    #         conn = get_db()
 
-            # create the cursor
-            cursor = conn.cursor()
+    #         # create the cursor
+    #         cursor = conn.cursor()
 
-            # check if the cursosr exist:
-            if cursor is None:
-                return None
+    #         # check if the cursosr exist:
+    #         if cursor is None:
+    #             return None
             
-            # write the query
-            query = "select user_id, user_name, email from users where user_name = %s and password = %s"
-            #execute the query
-            cursor.execute(query, (username, password))
-            user = cursor.fetchone()
-            cursor.close()
-            close_db()
-            return user # -> (user_id, user_name, is_admin ) -> 10	"test_admin"	true
-        except Exception as e:
-            print(e)
+    #         # write the query
+    #         query = "select user_id, user_name, email from users where user_name = %s and password = %s"
+    #         #execute the query
+    #         cursor.execute(query, (username, password))
+    #         user = cursor.fetchone()
+    #         cursor.close()
+    #         close_db()
+    #         return user # -> (user_id, user_name, is_admin ) -> 10	"test_admin"	true
+    #     except Exception as e:
+    #         print(e)
 
 
 
