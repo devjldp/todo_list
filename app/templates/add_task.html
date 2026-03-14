@@ -4,27 +4,32 @@
 
 {% block content %}
 
-<h2 class="text-center">Add a new Task</h2>
+<h2 class="text-center">Create Task</h2>
 
-<form method="post">
-    <div>
-        <label for="title">Task: </label>
-        <input type="text" name="title" id="title" placeholder="Task title" required arial-label="Title for the task">
-    </div>
+<div class="text-center">
 
-    <div>
-        <label for="description">Description:</label><br>
-        <textarea name="description" id="description" cols="40" rows="10" placeholder="Task Description..." aria-label="Description for the task"></textarea>
-    </div>
-    <div>
-        <label for="deadline">Dead Line: </label>
-        <input type="date" name="deadline" id="deadline" required>
-    </div>
+    <form method="post">
+        <div>
+            <label for="title">Task: </label>
+            <input type="text" name="title" id="title" placeholder="Task title" required arial-label="Title for the task">
+        </div>
+        
+        <div>
+            <label for="description">Description:</label><br>
+            <textarea name="description" id="description" cols="40" rows="10" placeholder="Task Description..." aria-label="Description for the task"></textarea>
+        </div>
+        <div>
+            <label for="deadline">Dead Line: </label>
+            <input type="date" name="deadline" id="deadline" required>
+        </div>
+        
+        <div>
+            <input type="submit" value="Create task" class="btn mt-2 mb-2">
+        </div>
+    </form>
 
-    <div>
-        <input type="submit" value="Create task">
-    </div>
-</form>
+    <a href="{{url_for('user_dashboard')}}" class = "btn mb-2" aria-label="Go to the employee dashboard">Go back to employee Dashboard</a>
+</div>
 
 
 {% endblock %}

@@ -10,11 +10,16 @@
     --button-text-colour: #fafafa;
     --button-hover-bg-colour: #fafafa;
     --button-hover-text-colour: #04053b;
+    --input-colour: #000000
 }
 
 /* spacing and margin */
 .mt-2{
     margin-top: 2vh;
+}
+
+.mb-2{
+    margin-bottom: 2vh;
 }
 
 .text-center{
@@ -96,18 +101,19 @@ footer > div{
 
 .btn{
     display: inline-block;
-    color: #fafafa;
-    background-color: #04053b;
+    color: var(--button-text-colour);
+    background-color: var(--button-bg-colour);
     text-decoration: none;
     padding: 6px 12px;
+    border: solid 1px;
     border-radius: 25px;
     font-size: 0.8rem;
 }
 
 .btn:hover{
-    color:#04053b;
-    background-color: #fafafa;
-    border: 1px solid #04053b;
+    color: var(--button-hover-text-colour);
+    background-color: var(--button-hover-bg-colour);
+    border: 1px solid var(--button-hover-text-colour);
 }
 
 .btn-no-radius{
@@ -116,6 +122,12 @@ footer > div{
 
 
 input[type="text"], input[type="email"], input[type="password"]{
-    background-color: #d2cbe2;
-    color: #000000;
+    background-color: var(--form-input-bg-colour);
+    color: var(--input-colour)
+}
+
+textarea{
+    background-color: var(--form-input-bg-colour);
+    color: var(--input-colour)
+    
 }

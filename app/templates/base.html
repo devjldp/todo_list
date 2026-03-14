@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- load the global styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <!-- load a specific styles for a view  -->
     {% block extra_css %} {% endblock %}
     <title>{% block title %}StreeamLine Productivity Solutions {% endblock %}</title>
 </head>
