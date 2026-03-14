@@ -241,7 +241,7 @@ class EmployeeOperations:
         finally:
             if cursor:
                 cursor.close()
-            conn.close()
+            close_db()
 
     def update_user_details(employee_details):
         try:
@@ -291,8 +291,46 @@ class EmployeeOperations:
         except Exception as e:
             print(e)
             return False
+        finally:
+            if cursor:
+                cursor.close()
+            close_db()
 
+class TaskOperations:
+    @staticmethod
+    def insert_new_task(task, employee_id):
+        """
+        Here docstring to comment the method
+        """
 
+        try: 
+            conn = get_db()
+
+            cursor = conn.cursor()
+
+            if cursor in None:
+                return None
+            
+            if not employee_id:
+                raise ValueError("Session Id for employee is missing")
+                return None
+
+            query = "insert into tasks (title, description, deadline, user_id) values (%s, %s, %s, %s);"
+
+            cursor.execute(query,(task["title"], task["description"], task["deadline"], employee_id))
+
+            conn.commit()
+            return True
+        except ValueError as e:
+            print(f"Error: {e}")
+            return False
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+        finally:
+            if cursor:
+                cursor.close()
+            close_db()
 
 
 
