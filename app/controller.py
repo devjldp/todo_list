@@ -12,11 +12,14 @@ from app import app
 @app.route('/', methods = ["GET", "POST"])
 def index():
     """
-    Handle the landing page and user login process.
-    For GET request, this function renders the login page.
-    For POST request, it attempts to authenticate the user:
-        if the user is administrator redirects to the administrator dashboard
-        if the user is a employee redirects to the employee dashboard
+    Flask route to handle the landing page and user login process.
+    Methods:
+        GET:
+            - Renders the login page.
+        POST:
+            - Attempts to authenticate the user:
+                - if the user is administrator redirects to the administrator dashboard
+                - if the user is a employee redirects to the employee dashboard
     """
     if request.method == "POST":
         username_email = request.form.get("user") 
@@ -51,7 +54,7 @@ def index():
 @app.route('/admin_dashboard', methods = ["GET", "POST"])
 def admin_dashboard():
     """
-    Admin Dasboard route
+    Flask route to handle the administrator dashboard.
     This route handles the admin dashboard functionality. It allows an admin
     to view all users and register new users through a web form.
 
@@ -126,7 +129,7 @@ def logout():
 @app.route('/user_dashboard', methods=["GET", "POST"])
 def user_dashboard():
     """
-    Handles the user dashboard page.
+    Flask route to handle the user dashboard page.
 
     GET:
         - Retrieves the logged-in user's details from the database.
@@ -217,7 +220,14 @@ def user_dashboard():
 @app.route('/add_task', methods=["GET", "POST"])
 def add_task():
     """
-    Here you are going to add your docstring
+    Flask route to handle the task creation page.
+
+    GET:
+        - Displays an empty form to get task information.
+
+    POST:
+        - Receives task information from the form.
+        - Redirects to the pending tasks after submission.
     """
 
     # Post method

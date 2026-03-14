@@ -6,6 +6,20 @@ class DatabaseOperations:
 
     @staticmethod
     def get_user_by_username(username, password):
+        """
+        Gets a user from the table users.
+        Args:
+            username (str): the username chosen by the user.
+            password (str): the password for the user account.
+
+        Returns:
+            user (tuple): the user details from table users.
+            None: if the database cursor not be created or any incident with database operation.
+        
+        Raises:
+            Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
+        """
+
         try:
             # create the connection object
             conn = get_db()
@@ -26,10 +40,24 @@ class DatabaseOperations:
             close_db()
             return user # -> (user_id, user_name, is_admin ) -> 10	"test_admin"	true
         except Exception as e:
-            print(e)
+            print(f"Error retrieving a user: {e}")
+            return None
 
     @staticmethod
     def get_user_by_email(email, password):
+        """
+        Gets a user from the table users.
+        Args:
+            email (str): the users email.
+            password (str): the password for the user account.
+
+        Returns:
+            user (tuple): the user details from table users.
+            None: if the database cursor not be created or any incident with database operation.
+        
+        Raises:
+            Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
+        """
         try:
             # create the connection object
             conn = get_db()
@@ -50,22 +78,23 @@ class DatabaseOperations:
             close_db()
             return user
         except Exception as e:
-            print(e)
+            print(f"Error retrieving a user: {e}")
+            return None
 
     @staticmethod
     def register_new_user(email, username, password):
         """
         Registers a new user in the database, table users.
         Args:
-            email(str): The email address of the user.
-            username (str): the usernmae chosen by the user.
+            email (str): The email address of the user.
+            username (str): the username chosen by the user.
             password (str): the password for the user account.
 
         Returns:
             bool:
                 True if the user (employee) was succesfully registered.
                 False if the registration failed due to an error.
-                None if the database cursos not be created.
+                None if the database cursor not be created.
         
         Raises:
             Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
@@ -118,11 +147,9 @@ class DatabaseOperations:
         
         Returns:
             List: List of tuples if the users exist.
-            None: If the cursor couldn't be created, and error occurs or no users are found.
-        
+            None: If the cursor couldn't be created, and error occurs or no users are found.        
         Raises:
             Exception: Any database-related exception encountered internally.
-
         """
         try:
             conn = get_db()
@@ -219,6 +246,20 @@ class DatabaseOperations:
 
 class EmployeeOperations:
     def get_user_details(id):
+        """
+        Gets user details from the table user_details
+
+        Args:
+            id (int): the employee id got form the session.
+
+        Returns:
+            user (tuple): A tuple with employee information.
+            None: If the cursor couldn't be created, and error occurs or no users are found.
+        
+        Raises:
+            Exception: Any database-related exception encountered internally.
+        """
+        
         try:
             conn = get_db()
 
@@ -237,13 +278,28 @@ class EmployeeOperations:
 
             return user
         except Exception as e:
-            print(e)
+            print(f"Error: {e}")
+            return None
         finally:
             if cursor:
                 cursor.close()
             close_db()
 
     def update_user_details(employee_details):
+        """
+        Updates user details into the table user_details
+
+        Args:
+            employee_details (dict): the employee info retrieved from the form.
+
+        Returns:
+            True (bool): If the update operation is successful.
+            False (bool): If there is some problem with the database.
+            None: If the cursor couldn't be created.
+        
+        Raises:
+            Exception: Any database-related exception encountered internally.
+        """
         try:
             conn = get_db()
 
@@ -285,11 +341,12 @@ class EmployeeOperations:
             print("user updated")
             # commit to save changes permanently in the database 
             conn.commit()
-            
-
             return True
+
         except Exception as e:
-            print(e)
+            if conn:
+                conn.rollback()
+            print(f"Error updating a user: {e}")
             return False
         finally:
             if cursor:
@@ -300,7 +357,18 @@ class TaskOperations:
     @staticmethod
     def insert_new_task(task, employee_id):
         """
-        Here docstring to comment the method
+        Registers a new task in the database, table tasks.
+        Args:
+            task (dict): The task information got from the form.
+            employee_id (int): The employee id got form the session.
+
+        Returns:
+            True: if the task associated to the user (employee) was succesfully created.
+            False: if the task creation failed due to an error.
+            None: if the database cursor not be created.
+        
+        Raises:
+            Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
         """
 
         try:
@@ -328,11 +396,14 @@ class TaskOperations:
             conn.commit()
             return True
         except ValueError as e:
+            if conn:
+                conn.rollback()
             print(f"Error Value error: {e}")
             return False
         except Exception as e:
-            print("Error is here")
-            print(f"Error: {e}")
+            if conn:
+                conn.rollback()
+            print(f"Error creating a new task: {e}")
             return False
         finally:
             if cursor:
