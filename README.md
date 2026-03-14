@@ -39,3 +39,12 @@ For this project three tables have been designed. You can finde the data types f
 ERD Schema
 
 ![Database Schema](documentation/database_design/todo_list_database_relations.webp)
+
+
+### Testing
+
+Please refer to the following document. [Testing](documentation/testing_documentation/testing.md)
+
+### Bugs
+
+Please refer to the following document. [Bugs](documentation/bugs/bugs.md)
