@@ -70,18 +70,23 @@ def admin_dashboard():
     """
 
     if request.method == "POST":
+        # Getting the data from the form
         email = request.form.get("email")
         username = request.form.get("username")
         password = request.form.get("password")
 
         result = DatabaseOperations.register_new_user(email, username, password)
+        
         if result:
             flash("New employee registered sucessfully", "success")
         else:
             flash("Oh Something goes wrong. Try Again!", "error")
 
         return redirect(url_for("admin_dashboard"))
+    
+    # Handle GET method 
     users = DatabaseOperations.get_all_users()
+    
     return render_template("admin_dashboard.html", employees = users)
 
 

@@ -56,7 +56,7 @@ class DatabaseOperations:
     def register_new_user(email, username, password):
         """
         Registers a new user in the database, table users.
-        Aegs:
+        Args:
             email(str): The email address of the user.
             username (str): the usernmae chosen by the user.
             password (str): the password for the user account.
@@ -68,10 +68,12 @@ class DatabaseOperations:
                 None if the database cursos not be created.
         
         Raises:
-            Exceptio: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
+            Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
         """
         try:
+            # Open connection with database
             conn = get_db()
+
             cursor = conn.cursor()
             # Check if the cursor is None
             if cursor is None:
@@ -81,10 +83,14 @@ class DatabaseOperations:
 
             cursor.execute(query, (email, username, password))
             
-            id = cursor.fetchone()[0]
+            
+            id = cursor.fetchone()[0] # Get the id from the registered that we have just inserted
             print(f"Id returned: {id}")
+
+
             query = "insert into user_details (user_id) values (%s);"
             cursor.execute(query, (id, ))
+            
             # commit to save changes permanently in the database 
             conn.commit()
 
@@ -137,6 +143,11 @@ class DatabaseOperations:
         except Exception as e:
             print(f"Error: {e}")
             return None
+        finally:
+            # Always clean up resources
+            if cursor:
+                cursor.close()
+            close_db()
 
     @staticmethod
     def remove_user(user_id):
@@ -222,11 +233,15 @@ class EmployeeOperations:
 
             cursor.execute(query, (id ,)) 
 
-            user = cursor.fetchone()
+            user = cursor.fetchone() # retrieve only one row
 
             return user
         except Exception as e:
             print(e)
+        finally:
+            if cursor:
+                cursor.close()
+            conn.close()
 
     def update_user_details(employee_details):
         try:
