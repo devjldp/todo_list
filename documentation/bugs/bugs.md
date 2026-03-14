@@ -15,7 +15,7 @@
 **Expected result:** All data is updated in the database
 **Actual result:**  The date_birth field in the user_Details remains the previous value (Null)
 
-**Root Cause:** the vakue from the form is submitted as a string. Problem with data type.
+**Root Cause:** The value from the form is submitted as a string. Problem with data type.
 
 **Functions:**
 
@@ -50,3 +50,38 @@
 else:
     employee_details["date_birth"] = datetime.strptime(date_birth_str, "%Y-%m-%d").date()
 ```
+
+
+---
+
+### BUG-002:
+
+**Description:** When removing an employee, the employee is not removed from the child table.
+
+**Steps:** 
+1. Log in as an administrator.
+2. Navigate to the admin dashboard
+3. Select an employee and attempt to delete the employee.
+
+**Expected result:** the ekmployee is removed from the database and is not displayed in the admin dashboard
+**Actual result:** The deletion fails with a database error indicating that the record cannot be removed because it is referenced in a child table.
+
+**Root Cause:** The foreign key constraint in the child table does not include ON DELETE CASCADE, preventing the deletion of the parent record.
+
+**Fix:**
+1. imOpen PgAdmin, select the database and modify.
+2. Paste the following code.
+
+```sql
+ALTER TABLE user_details
+DROP CONSTRAINT "FK_user_id"; 
+
+ALTER TABLE user_details
+ADD CONSTRAINT "FK_user_id"
+FOREIGN KEY (user_id)
+REFERENCES users(user_id)
+ON DELETE CASCADE;
+```
+
+
+---
