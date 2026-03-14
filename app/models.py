@@ -410,5 +410,70 @@ class TaskOperations:
                 cursor.close()
             close_db()
 
+    @staticmethod
+    def get_all_tasks(employee_id):
+        """
+        Here docstrings
+        """
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            if cursor is None:
+                return None
 
+            query = "select task_id, title, deadline, completed from tasks where user_id = %s;"
 
+            cursor.execute(query, (employee_id, ))
+
+            tasks = cursor.fetchall()
+
+            return tasks
+        
+        except Exception as e:
+            print(f"Error retieving tasks from database: {e}")
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+            close_db()
+
+    def remove_task_by_id(task_id):
+        """
+            Removes a task from the database by their task ID.
+            Args:
+                task_id (int): The unique identifier of the task to be removed.
+            Returns:
+                    True: if the task was successfully removed.
+                    False: if the deletion failed due to an error.
+                    None: if the database cursor could not be created.
+
+            Raises:
+                Exception: Any database-related exception encountered is caught internally, triggering a rollback and returning False.
+        """
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            # Check if the cursor is None
+            if cursor is None:
+                return None
+
+            query = "delete from tasks where task_id = %s;"
+
+            #  must be a tuple  -> tis is the reason for (task_id, )    
+            cursor.execute(query, (task_id,))
+
+            # commit to save changes permanently in the database 
+            conn.commit()
+            # Debugging purpose:
+            print("Task removed succesfully")
+            return True
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            print(f"Error deleting a task: Deletion Failed. {e}")
+            return False
+        finally:
+            # Always clean up resources
+            if cursor:
+                cursor.close()
+            close_db()
