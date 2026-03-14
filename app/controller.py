@@ -275,3 +275,12 @@ def delete_task(task_id):
         flash("Oh Something goes wrong. Try Again!", "error")
 
     return redirect(url_for("view_tasks"))
+
+@app.route('/update_task/<int: task_id>', methods=["GET", "POST"])
+def update_task(task_id):
+
+    # method post: get the information from the form and invoke the update method for the class TaskOperations
+
+
+    # method get:
+    return render_template("update_taks.html")

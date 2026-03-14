@@ -2,6 +2,7 @@ from config.database import get_db, close_db
 # import dattime class to work wit dates:
 from datetime import datetime
 
+
 class DatabaseOperations:
 
     @staticmethod
@@ -14,10 +15,12 @@ class DatabaseOperations:
 
         Returns:
             user (tuple): the user details from table users.
-            None: if the database cursor not be created or any incident with database operation.
-        
+            None: if the database cursor not be created or any
+            incident with database operation.
+
         Raises:
-            Exception: any database-related execption encountered during execution is caught internally and handled by rolling back the transaction.
+            Exception: any database-related execption encountered during
+            execution is caught internally and handled by rolling back the transaction.
         """
 
         try:
@@ -477,3 +480,8 @@ class TaskOperations:
             if cursor:
                 cursor.close()
             close_db()
+
+# Create the function to update a task
+    def update_task(task_id):
+        # code to update a task in the database
+        pass
