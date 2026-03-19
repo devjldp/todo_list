@@ -276,7 +276,7 @@ def delete_task(task_id):
 
     return redirect(url_for("view_tasks"))
 
-@app.route('/update_task/<int: task_id>', methods=["GET", "POST"])
+@app.route('/update_task/<int:task_id>', methods=["GET", "POST"])
 def update_task(task_id):
 
     # method post: get the information from the form and invoke the update method for the class TaskOperations
